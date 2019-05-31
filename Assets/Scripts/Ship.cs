@@ -8,6 +8,7 @@ public class Ship : MonoBehaviour
 {
     [SerializeField] private float rotationSpeed = 225.0f;
     [SerializeField] private float speed = 30.0f;
+    [SerializeField] private GameObject bullet;
     private Rigidbody2D _rigidbody2D;
     private float _upperBound;
     private float _rightBound;
@@ -40,6 +41,10 @@ public class Ship : MonoBehaviour
         {
             _rigidbody2D.AddRelativeForce(Vector2.right * speed * Time.deltaTime);
         }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+
+        }
         if(_rigidbody2D.transform.position.x >= _rightBound + _spriteWidth / 4)
         {
             _rigidbody2D.transform.position = new Vector3(-_rightBound - _spriteWidth / 4, _rigidbody2D.transform.position.y);
@@ -58,5 +63,10 @@ public class Ship : MonoBehaviour
         }
 
         _rigidbody2D.velocity = new Vector2(Mathf.Clamp(_rigidbody2D.velocity.x, -5.0f, 5.0f), Mathf.Clamp(_rigidbody2D.velocity.y, -5.0f, 5.0f));
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Object.Destroy(this.gameObject);
     }
 }

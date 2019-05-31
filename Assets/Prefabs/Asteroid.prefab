@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 5958525162485327276}
   - component: {fileID: 5958525162485327279}
   - component: {fileID: 5725998324986366149}
-  - component: {fileID: -1813061091664085095}
-  m_Layer: 0
+  - component: {fileID: 6979935035860693311}
+  m_Layer: 8
   m_Name: Asteroid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 10aaeb9e7d4f7ac41bce6e9f1a0661d3, type: 3}
   - {fileID: 21300000, guid: eb66d895c8a884841b17400669156a15, type: 3}
   - {fileID: 21300000, guid: a30e8f54ec6fc4745a71230a4987ae9b, type: 3}
---- !u!58 &-1813061091664085095
+--- !u!58 &6979935035860693311
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

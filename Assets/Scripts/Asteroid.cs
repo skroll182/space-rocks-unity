@@ -28,6 +28,7 @@ public class Asteroid : MonoBehaviour
         _spriteHeight = spr.texture.height / spr.pixelsPerUnit;
         _upperBound = Camera.main.transform.position.y + Camera.main.orthographicSize;
         _rightBound = Camera.main.transform.position.x + Camera.main.orthographicSize * Camera.main.aspect;
+        GetComponent<CircleCollider2D>().radius = _spriteWidth / 2.0f;
     }
 
     // Update is called once per frame
