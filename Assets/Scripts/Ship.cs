@@ -10,19 +10,15 @@ public class Ship : MonoBehaviour
     [SerializeField] private float acceleration = 0.5f;
     [SerializeField] private GameObject bullet;
     private Vector3 _velocity = new Vector3(0.0f, 0.0f, 0.0f);
-    private float _upperBound;
-    private float _rightBound;
     private float _spriteWidth;
     private float _spriteHeight;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        
-        _upperBound = Camera.main.transform.position.y + Camera.main.orthographicSize;
-        _rightBound = Camera.main.transform.position.x + Camera.main.orthographicSize * Camera.main.aspect;
-        Sprite spr = GetComponent<SpriteRenderer>().sprite;
-        _spriteWidth = spr.texture.width / spr.pixelsPerUnit;
-        _spriteHeight = spr.texture.height / spr.pixelsPerUnit;
+        _spriteWidth = GetComponent<SpriteRenderer>().sprite.texture.width / GetComponent<SpriteRenderer>().sprite.pixelsPerUnit;
+        _spriteHeight = GetComponent<SpriteRenderer>().sprite.texture.height / GetComponent<SpriteRenderer>().sprite.pixelsPerUnit;
         
     }
 
@@ -52,21 +48,21 @@ public class Ship : MonoBehaviour
             GameObject new_bullet = Instantiate(bullet, transform.position, new Quaternion());
             new_bullet.transform.rotation = transform.rotation;
         }
-        if(transform.position.x >= _rightBound + _spriteWidth / 4)
+        if(transform.position.x >= GameSceneController.rightBound + _spriteWidth / 4)
         {
-            transform.position = new Vector3(-_rightBound - _spriteWidth / 4, transform.position.y);
+            transform.position = new Vector3(-GameSceneController.rightBound - _spriteWidth / 4, transform.position.y);
         }
-        if (transform.position.x <= -_rightBound - _spriteWidth / 4)
+        if (transform.position.x <= -GameSceneController.rightBound - _spriteWidth / 4)
         {
-            transform.position = new Vector3(_rightBound + _spriteWidth / 4, transform.position.y);
+            transform.position = new Vector3(GameSceneController.rightBound + _spriteWidth / 4, transform.position.y);
         }
-        if (transform.position.y >= _upperBound + _spriteHeight / 4)
+        if (transform.position.y >= GameSceneController.upperBound + _spriteHeight / 4)
         {
-            transform.position = new Vector3(transform.position.x, -_upperBound - _spriteHeight / 4);
+            transform.position = new Vector3(transform.position.x, -GameSceneController.upperBound - _spriteHeight / 4);
         }
-        if (transform.position.y <= -_upperBound - _spriteHeight / 4)
+        if (transform.position.y <= -GameSceneController.upperBound - _spriteHeight / 4)
         {
-            transform.position = new Vector3(transform.position.x, _upperBound + _spriteHeight / 4);
+            transform.position = new Vector3(transform.position.x, GameSceneController.upperBound + _spriteHeight / 4);
         }
         
         transform.Translate(_velocity * Time.deltaTime, Space.World);
