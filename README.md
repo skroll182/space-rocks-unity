@@ -4,3 +4,9 @@ Recreation of "Space Rocks" game shown in [tutorial series](https://www.youtube.
 Required:
 
 - Unity 2019.1
+
+## Some screenshots:
+
+![Imgur](https://i.imgur.com/siHOUMx.png)
+![Imgur](https://i.imgur.com/yOfocHs.png)
+![Imgur](https://i.imgur.com/S93izaQ.png)
