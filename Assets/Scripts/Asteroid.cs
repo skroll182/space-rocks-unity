@@ -12,6 +12,16 @@ public class Asteroid : MonoBehaviour
     private Vector3 _velocity;
     private float _spriteWidth;
     private float _spriteHeight;
+
+    public float SpriteWidth
+    {
+        get { return _spriteWidth; }
+    }
+
+    public float SpriteHeight
+    {
+        get { return _spriteHeight; }
+    }
     // Start is called before the first frame update
     void Start()
     {

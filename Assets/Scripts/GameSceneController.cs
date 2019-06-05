@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameSceneController : MonoBehaviour
 {
     [SerializeField] private GameObject[] Asteroids = new GameObject[3];
     public static float upperBound;
     public static float rightBound;
-
+    private static int _score = 0;
+    private static int _lives = 999;
     
     // Start is called before the first frame update
     void Start()
@@ -56,7 +59,13 @@ public class GameSceneController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+    
+    }
+
+    private void OnGUI()
+    {
+        GameObject.Find("TextScore").GetComponent<Text>().text = "SCORE: " + _score;
+        GameObject.Find("TextLives").GetComponent<Text>().text = "LIVES: " + _lives;
     }
 
     public void AsteroidDestroyed(GameObject original, Vector3 pos)
@@ -64,6 +73,7 @@ public class GameSceneController : MonoBehaviour
         switch (original.GetComponent<SpriteRenderer>().sprite.name)
         {
             case "spr_asteroid_huge":
+                _score += 10;
                 for (int i = 0; i < 2; i++)
                 {
                     
@@ -72,13 +82,29 @@ public class GameSceneController : MonoBehaviour
                 Debug.Log("Huge Destroyed");
                 break;
             case "spr_asteroid_med":
+                _score += 15;
                 for (int i = 0; i < 2; i++)
                 {
                     GameObject new_asteroid = Instantiate(Asteroids[2], pos, new Quaternion());
                 }
                 Debug.Log("Medium Destroyed");
                 break;
+            default:
+                _score += 20;
+                break;
         }
+    }
+
+    public void ShipDestroyed()
+    {
+        StartCoroutine("ShipDestroyedCoroutine");
+    }
+
+    private IEnumerator ShipDestroyedCoroutine()
+    {
+        _lives--;
+        yield return new WaitForSeconds(2.0f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     IEnumerator SpawnNewAsteroid()
@@ -92,14 +118,14 @@ public class GameSceneController : MonoBehaviour
             if (values[Random.Range(0, values.Length)])
             {
                 float x = Random.Range(-rightBound, rightBound);
-                float[] Y = new float[] {upperBound, -upperBound};
+                float[] Y = new float[] {upperBound - asteroid.GetComponent<Asteroid>().SpriteHeight*2, -upperBound + asteroid.GetComponent<Asteroid>().SpriteHeight*2 };
                 float y = Y[Random.Range(0, Y.Length)];
                 pos = new Vector3(x, y, 1.0f);
             }
             else
             {
                 float y = Random.Range(-upperBound, upperBound);
-                float[] X = new float[] {rightBound, -rightBound};
+                float[] X = new float[] {rightBound - asteroid.GetComponent<Asteroid>().SpriteWidth*2, -rightBound + asteroid.GetComponent<Asteroid>().SpriteWidth*2 };
                 float x = X[Random.Range(0, X.Length)];
                 pos = new Vector3(x, y, 1.0f);
             }

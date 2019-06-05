@@ -68,8 +68,13 @@ public class Ship : MonoBehaviour
         transform.Translate(_velocity * Time.deltaTime, Space.World);
     }
 
+    
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        
+     
         Destroy(this.gameObject);
+        GameObject.Find("GameSceneController").GetComponent<GameSceneController>().ShipDestroyed();
     }
 }
