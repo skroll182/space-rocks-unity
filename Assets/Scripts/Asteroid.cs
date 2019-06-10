@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Asteroid : MonoBehaviour
 {
@@ -34,22 +35,45 @@ public class Asteroid : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.x >= GameSceneController.rightBound + _spriteWidth / 4)
+        if (SceneManager.GetActiveScene().name == "GameScene")
         {
-            transform.position = new Vector3(-GameSceneController.rightBound - _spriteWidth / 4, transform.position.y);
+            if (transform.position.x >= GameSceneController.rightBound + _spriteWidth / 4)
+            {
+                transform.position = new Vector3(-GameSceneController.rightBound - _spriteWidth / 4, transform.position.y);
+            }
+            if (transform.position.x <= -GameSceneController.rightBound - _spriteWidth / 4)
+            {
+                transform.position = new Vector3(GameSceneController.rightBound + _spriteWidth / 4, transform.position.y);
+            }
+            if (transform.position.y >= GameSceneController.upperBound + _spriteHeight / 4)
+            {
+                transform.position = new Vector3(transform.position.x, -GameSceneController.upperBound - _spriteHeight / 4);
+            }
+            if (transform.position.y <= -GameSceneController.upperBound - _spriteHeight / 4)
+            {
+                transform.position = new Vector3(transform.position.x, GameSceneController.upperBound + _spriteHeight / 4);
+            }
         }
-        if (transform.position.x <= -GameSceneController.rightBound - _spriteWidth / 4)
+        else if (SceneManager.GetActiveScene().name == "MainMenu")
         {
-            transform.position = new Vector3(GameSceneController.rightBound + _spriteWidth / 4, transform.position.y);
+            if (transform.position.x >= MainMenuSceneController.rightBound + _spriteWidth / 4)
+            {
+                transform.position = new Vector3(-MainMenuSceneController.rightBound - _spriteWidth / 4, transform.position.y);
+            }
+            if (transform.position.x <= -MainMenuSceneController.rightBound - _spriteWidth / 4)
+            {
+                transform.position = new Vector3(MainMenuSceneController.rightBound + _spriteWidth / 4, transform.position.y);
+            }
+            if (transform.position.y >= MainMenuSceneController.upperBound + _spriteHeight / 4)
+            {
+                transform.position = new Vector3(transform.position.x, -MainMenuSceneController.upperBound - _spriteHeight / 4);
+            }
+            if (transform.position.y <= -MainMenuSceneController.upperBound - _spriteHeight / 4)
+            {
+                transform.position = new Vector3(transform.position.x, MainMenuSceneController.upperBound + _spriteHeight / 4);
+            }
         }
-        if (transform.position.y >= GameSceneController.upperBound + _spriteHeight / 4)
-        {
-            transform.position = new Vector3(transform.position.x, -GameSceneController.upperBound - _spriteHeight / 4);
-        }
-        if (transform.position.y <= -GameSceneController.upperBound - _spriteHeight / 4)
-        {
-            transform.position = new Vector3(transform.position.x, GameSceneController.upperBound + _spriteHeight / 4);
-        }
+        
         transform.Rotate(new Vector3(0, 0, 1) * rotationSpeed * Time.deltaTime);
         transform.Translate(_velocity * Time.deltaTime, Space.World);
     }

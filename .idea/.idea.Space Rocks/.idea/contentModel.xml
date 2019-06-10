@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\skroll\.Rider2019.1\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\skroll\.Rider2019.1\system\resharper-host\local\Transient\ReSharperHost\v191\SolutionCaches\_Space Rocks.-1357801275.00" t="ExcludeRecursive" />
+    <e p="C:\Users\skroll\UnityProjects\Space Rocks" t="IncludeRecursive">
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Scripts" t="Include">
+          <e p="Asteroid.cs" t="Include" />
+          <e p="Bullet.cs" t="Include" />
+          <e p="GameSceneController.cs" t="Include" />
+          <e p="MainMenuSceneController.cs" t="Include" />
+          <e p="Ship.cs" t="Include" />
+          <e p="Utilities.cs" t="Include" />
+        </e>
+      </e>
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Space Rocks.sln" t="IncludeFlat" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
