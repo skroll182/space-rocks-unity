@@ -77,6 +77,8 @@ public class Asteroid : MonoBehaviour
         transform.Rotate(new Vector3(0, 0, 1) * rotationSpeed * Time.deltaTime);
         transform.Translate(_velocity * Time.deltaTime, Space.World);
     }
+    
+    
 
     
 

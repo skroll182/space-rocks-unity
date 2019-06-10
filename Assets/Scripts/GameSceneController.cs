@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameSceneController : MonoBehaviour
 {
     [SerializeField] private GameObject[] Asteroids = new GameObject[3];
+    [SerializeField] private GameObject debris;
     public static float upperBound;
     public static float rightBound;
     private static int _score = 0;
@@ -70,6 +71,10 @@ public class GameSceneController : MonoBehaviour
 
     public void AsteroidDestroyed(GameObject original, Vector3 pos)
     {
+        for (int i = 0; i < 20; i++)
+        {
+            Instantiate(debris, pos, new Quaternion());
+        }
         switch (original.GetComponent<SpriteRenderer>().sprite.name)
         {
             case "spr_asteroid_huge":
@@ -95,8 +100,12 @@ public class GameSceneController : MonoBehaviour
         }
     }
 
-    public void ShipDestroyed()
+    public void ShipDestroyed(Vector3 pos)
     {
+        for (int i = 0; i < 20; i++)
+        {
+            Instantiate(debris, pos, new Quaternion());
+        }
         StartCoroutine("ShipDestroyedCoroutine");
     }
 

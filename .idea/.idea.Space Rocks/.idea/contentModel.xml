@@ -9,6 +9,7 @@
         <e p="Scripts" t="Include">
           <e p="Asteroid.cs" t="Include" />
           <e p="Bullet.cs" t="Include" />
+          <e p="Debris.cs" t="Include" />
           <e p="GameSceneController.cs" t="Include" />
           <e p="MainMenuSceneController.cs" t="Include" />
           <e p="Ship.cs" t="Include" />

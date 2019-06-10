@@ -75,6 +75,6 @@ public class Ship : MonoBehaviour
         
      
         Destroy(this.gameObject);
-        GameObject.Find("GameSceneController").GetComponent<GameSceneController>().ShipDestroyed();
+        GameObject.Find("GameSceneController").GetComponent<GameSceneController>().ShipDestroyed(this.transform.position);
     }
 }
