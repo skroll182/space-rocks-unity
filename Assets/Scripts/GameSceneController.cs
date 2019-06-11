@@ -8,10 +8,14 @@ public class GameSceneController : MonoBehaviour
 {
     [SerializeField] private GameObject[] asteroids = new GameObject[3];
     [SerializeField] private GameObject debris;
+    private AudioClip asteroidDestroySound;
+    private AudioClip shipDestroySound;
     
     // Start is called before the first frame update
     void Start()
     {
+        asteroidDestroySound = Resources.Load<AudioClip>("Audio/snd_hurt");
+        shipDestroySound = Resources.Load<AudioClip>("Audio/snd_die");
         Camera cam = Camera.main;
         
         for (int i = 0; i < 14; i++)
@@ -63,6 +67,7 @@ public class GameSceneController : MonoBehaviour
 
     public void AsteroidDestroyed(GameObject original, Vector3 pos)
     {
+        GetComponent<AudioSource>().PlayOneShot(asteroidDestroySound);
         for (int i = 0; i < 20; i++)
         {
             Instantiate(debris, pos, new Quaternion());
@@ -98,6 +103,7 @@ public class GameSceneController : MonoBehaviour
 
     public void ShipDestroyed(Vector3 pos)
     {
+        GetComponent<AudioSource>().PlayOneShot(shipDestroySound);
         for (int i = 0; i < 20; i++)
         {
             Instantiate(debris, pos, new Quaternion());

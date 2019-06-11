@@ -1,13 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class Asteroid : MonoBehaviour
 {
 
     [SerializeField] private float speed = 0.5f;
     [SerializeField] private float rotationSpeed = 50.0f;
+    private AudioClip destroySound;
  
     private Vector3 _moveDirection;
     private Vector3 _velocity;
@@ -18,6 +21,7 @@ public class Asteroid : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        destroySound = Resources.Load<AudioClip>("Audio/snd_hurt");
         _moveDirection = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), 0.0f);
         _velocity = new Vector3(speed*_moveDirection.x, speed*_moveDirection.y, 0);
         _spriteWidth = GetComponent<SpriteRenderer>().sprite.texture.width / GetComponent<SpriteRenderer>().sprite.pixelsPerUnit;
@@ -50,13 +54,6 @@ public class Asteroid : MonoBehaviour
         transform.Rotate(new Vector3(0, 0, 1) * rotationSpeed * Time.deltaTime);
         transform.Translate(_velocity * Time.deltaTime, Space.World);
     }
-    
-    
 
     
-
-    
-
-    
-
 }

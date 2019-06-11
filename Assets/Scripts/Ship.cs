@@ -9,6 +9,7 @@ public class Ship : MonoBehaviour
     [SerializeField] private float rotationSpeed = 225.0f;
     [SerializeField] private float acceleration = 0.5f;
     [SerializeField] private GameObject bullet;
+    private AudioClip shootSound;
     private Vector3 _velocity = new Vector3(0.0f, 0.0f, 0.0f);
     private float _spriteWidth;
     private float _spriteHeight;
@@ -17,6 +18,7 @@ public class Ship : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         _spriteWidth = GetComponent<SpriteRenderer>().sprite.texture.width / GetComponent<SpriteRenderer>().sprite.pixelsPerUnit;
         _spriteHeight = GetComponent<SpriteRenderer>().sprite.texture.height / GetComponent<SpriteRenderer>().sprite.pixelsPerUnit;
         
@@ -45,6 +47,7 @@ public class Ship : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            GetComponent<AudioSource>().PlayOneShot(shootSound);
             GameObject new_bullet = Instantiate(bullet, transform.position, new Quaternion());
             new_bullet.transform.rotation = transform.rotation;
         }
@@ -73,7 +76,7 @@ public class Ship : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         
-     
+        GetComponent<AudioSource>().Play();
         Destroy(this.gameObject);
         GameObject.Find("GameSceneController").GetComponent<GameSceneController>().ShipDestroyed(this.transform.position);
     }

@@ -28,8 +28,8 @@ public class MainMenuSceneController : MonoBehaviour
 
     public void GoToGameScene()
     {
-        GlobalControl.Instance.score = 980;
-        GlobalControl.Instance.lives = 1;
+        GlobalControl.Instance.score = 0;
+        GlobalControl.Instance.lives = 3;
         SceneManager.LoadScene("GameScene");
         
     }
