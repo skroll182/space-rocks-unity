@@ -48,21 +48,21 @@ public class Ship : MonoBehaviour
             GameObject new_bullet = Instantiate(bullet, transform.position, new Quaternion());
             new_bullet.transform.rotation = transform.rotation;
         }
-        if(transform.position.x >= GameSceneController.rightBound + _spriteWidth / 4)
+        if(transform.position.x >= GlobalControl.Instance.rightBound + _spriteWidth / 4)
         {
-            transform.position = new Vector3(-GameSceneController.rightBound - _spriteWidth / 4, transform.position.y);
+            transform.position = new Vector3(GlobalControl.Instance.leftBound - _spriteWidth / 4, transform.position.y);
         }
-        if (transform.position.x <= -GameSceneController.rightBound - _spriteWidth / 4)
+        if (transform.position.x <= GlobalControl.Instance.leftBound - _spriteWidth / 4)
         {
-            transform.position = new Vector3(GameSceneController.rightBound + _spriteWidth / 4, transform.position.y);
+            transform.position = new Vector3(GlobalControl.Instance.rightBound + _spriteWidth / 4, transform.position.y);
         }
-        if (transform.position.y >= GameSceneController.upperBound + _spriteHeight / 4)
+        if (transform.position.y >= GlobalControl.Instance.upperBound + _spriteHeight / 4)
         {
-            transform.position = new Vector3(transform.position.x, -GameSceneController.upperBound - _spriteHeight / 4);
+            transform.position = new Vector3(transform.position.x, GlobalControl.Instance.lowerBound - _spriteHeight / 4);
         }
-        if (transform.position.y <= -GameSceneController.upperBound - _spriteHeight / 4)
+        if (transform.position.y <= GlobalControl.Instance.lowerBound - _spriteHeight / 4)
         {
-            transform.position = new Vector3(transform.position.x, GameSceneController.upperBound + _spriteHeight / 4);
+            transform.position = new Vector3(transform.position.x, GlobalControl.Instance.upperBound + _spriteHeight / 4);
         }
         
         transform.Translate(_velocity * Time.deltaTime, Space.World);

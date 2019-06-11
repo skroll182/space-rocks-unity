@@ -14,15 +14,7 @@ public class Asteroid : MonoBehaviour
     private float _spriteWidth;
     private float _spriteHeight;
 
-    public float SpriteWidth
-    {
-        get { return _spriteWidth; }
-    }
-
-    public float SpriteHeight
-    {
-        get { return _spriteHeight; }
-    }
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -35,44 +27,25 @@ public class Asteroid : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (SceneManager.GetActiveScene().name == "GameScene")
+        
+        if (transform.position.x >= GlobalControl.Instance.rightBound + _spriteWidth / 4)
         {
-            if (transform.position.x >= GameSceneController.rightBound + _spriteWidth / 4)
-            {
-                transform.position = new Vector3(-GameSceneController.rightBound - _spriteWidth / 4, transform.position.y);
-            }
-            if (transform.position.x <= -GameSceneController.rightBound - _spriteWidth / 4)
-            {
-                transform.position = new Vector3(GameSceneController.rightBound + _spriteWidth / 4, transform.position.y);
-            }
-            if (transform.position.y >= GameSceneController.upperBound + _spriteHeight / 4)
-            {
-                transform.position = new Vector3(transform.position.x, -GameSceneController.upperBound - _spriteHeight / 4);
-            }
-            if (transform.position.y <= -GameSceneController.upperBound - _spriteHeight / 4)
-            {
-                transform.position = new Vector3(transform.position.x, GameSceneController.upperBound + _spriteHeight / 4);
-            }
+            transform.position = new Vector3(GlobalControl.Instance.leftBound - _spriteWidth / 4, transform.position.y);
         }
-        else if (SceneManager.GetActiveScene().name == "MainMenu")
+        if (transform.position.x <= GlobalControl.Instance.leftBound - _spriteWidth / 4)
         {
-            if (transform.position.x >= MainMenuSceneController.rightBound + _spriteWidth / 4)
-            {
-                transform.position = new Vector3(-MainMenuSceneController.rightBound - _spriteWidth / 4, transform.position.y);
-            }
-            if (transform.position.x <= -MainMenuSceneController.rightBound - _spriteWidth / 4)
-            {
-                transform.position = new Vector3(MainMenuSceneController.rightBound + _spriteWidth / 4, transform.position.y);
-            }
-            if (transform.position.y >= MainMenuSceneController.upperBound + _spriteHeight / 4)
-            {
-                transform.position = new Vector3(transform.position.x, -MainMenuSceneController.upperBound - _spriteHeight / 4);
-            }
-            if (transform.position.y <= -MainMenuSceneController.upperBound - _spriteHeight / 4)
-            {
-                transform.position = new Vector3(transform.position.x, MainMenuSceneController.upperBound + _spriteHeight / 4);
-            }
+            transform.position = new Vector3(GlobalControl.Instance.rightBound + _spriteWidth / 4, transform.position.y);
         }
+        if (transform.position.y >= GlobalControl.Instance.upperBound + _spriteHeight / 4)
+        {
+            transform.position = new Vector3(transform.position.x, GlobalControl.Instance.lowerBound - _spriteHeight / 4);
+        }
+        if (transform.position.y <= GlobalControl.Instance.lowerBound - _spriteHeight / 4)
+        {
+            transform.position = new Vector3(transform.position.x, GlobalControl.Instance.upperBound + _spriteHeight / 4);
+        }
+        
+       
         
         transform.Rotate(new Vector3(0, 0, 1) * rotationSpeed * Time.deltaTime);
         transform.Translate(_velocity * Time.deltaTime, Space.World);

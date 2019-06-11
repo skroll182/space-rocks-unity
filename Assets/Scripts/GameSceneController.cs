@@ -6,42 +6,37 @@ using UnityEngine.SceneManagement;
 
 public class GameSceneController : MonoBehaviour
 {
-    [SerializeField] private GameObject[] Asteroids = new GameObject[3];
+    [SerializeField] private GameObject[] asteroids = new GameObject[3];
     [SerializeField] private GameObject debris;
-    public static float upperBound;
-    public static float rightBound;
-    private static int _score = 0;
-    private static int _lives = 999;
     
     // Start is called before the first frame update
     void Start()
     {
         Camera cam = Camera.main;
-        upperBound = cam.transform.position.y + cam.orthographicSize;
-        rightBound = cam.transform.position.x + cam.orthographicSize * cam.aspect;
-
-
+        
         for (int i = 0; i < 14; i++)
         {
+            // Generate new asteroid x position in range of 30% of screen width (both left and right sides)
             float[] X = new float[] {
                 Random.Range(
-                    cam.transform.position.x - cam.orthographicSize * cam.aspect,
-                    cam.transform.position.x - cam.orthographicSize * cam.aspect + cam.orthographicSize * cam.aspect * 2.0f * 0.3f
+                    GlobalControl.Instance.leftBound,
+                    GlobalControl.Instance.leftBound + cam.orthographicSize * cam.aspect * 2.0f * 0.3f
                 ),
                 Random.Range(
-                    cam.transform.position.x + cam.orthographicSize * cam.aspect - cam.orthographicSize * cam.aspect * 2.0f * 0.3f,
-                    cam.transform.position.x + cam.orthographicSize * cam.aspect
+                    GlobalControl.Instance.rightBound - cam.orthographicSize * cam.aspect * 2.0f * 0.3f,
+                    GlobalControl.Instance.rightBound
                 )
             };
-
+            
+            // Generate new asteroid y position in range of 30% of screen height (both upper and lower sides)
             float[] Y = new float[] {
                 Random.Range(
-                    cam.transform.position.y - cam.orthographicSize,
-                    cam.transform.position.y - cam.orthographicSize + cam.orthographicSize * 2.0f * 0.3f
+                    GlobalControl.Instance.lowerBound,
+                    GlobalControl.Instance.lowerBound + cam.orthographicSize * 2.0f * 0.3f
                 ),
                 Random.Range(
-                    cam.transform.position.y + cam.orthographicSize - cam.orthographicSize * 2.0f * 0.3f,
-                    cam.transform.position.y + cam.orthographicSize
+                    GlobalControl.Instance.upperBound - cam.orthographicSize * 2.0f * 0.3f,
+                    GlobalControl.Instance.upperBound
                 )
             };
 
@@ -50,23 +45,20 @@ public class GameSceneController : MonoBehaviour
             float z = 1.0f;
 
             Vector3 pos = new Vector3(x, y, z);
-            GameObject asteroid = Asteroids[Random.Range(0, Asteroids.Length)];
+            GameObject asteroid = asteroids[Random.Range(0, asteroids.Length)];
             Instantiate(asteroid, pos, new Quaternion());
             
         }
+        // Start spawning asteroids every 5 seconds
         StartCoroutine("SpawnNewAsteroid");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
     
-    }
 
     private void OnGUI()
     {
-        GameObject.Find("TextScore").GetComponent<Text>().text = "SCORE: " + _score;
-        GameObject.Find("TextLives").GetComponent<Text>().text = "LIVES: " + _lives;
+        GameObject.Find("TextScore").GetComponent<Text>().text = "SCORE: " + GlobalControl.Instance.score;
+        GameObject.Find("TextLives").GetComponent<Text>().text = "LIVES: " + GlobalControl.Instance.lives;
     }
 
     public void AsteroidDestroyed(GameObject original, Vector3 pos)
@@ -78,25 +70,29 @@ public class GameSceneController : MonoBehaviour
         switch (original.GetComponent<SpriteRenderer>().sprite.name)
         {
             case "spr_asteroid_huge":
-                _score += 10;
+                GlobalControl.Instance.score += 10;
                 for (int i = 0; i < 2; i++)
                 {
-                    
-                    GameObject new_asteroid = Instantiate(Asteroids[1], pos, new Quaternion());
+                    Instantiate(asteroids[1], pos, new Quaternion());
                 }
-                Debug.Log("Huge Destroyed");
                 break;
             case "spr_asteroid_med":
-                _score += 15;
+                GlobalControl.Instance.score += 15;
                 for (int i = 0; i < 2; i++)
                 {
-                    GameObject new_asteroid = Instantiate(Asteroids[2], pos, new Quaternion());
+                    Instantiate(asteroids[2], pos, new Quaternion());
                 }
-                Debug.Log("Medium Destroyed");
                 break;
             default:
-                _score += 20;
+                GlobalControl.Instance.score += 20;
                 break;
+        }
+
+        GlobalControl.Instance.score = Mathf.Clamp(GlobalControl.Instance.score, 0, 1000);
+        
+        if (GlobalControl.Instance.score >= 1000)
+        {
+            SceneManager.LoadScene("WinScreen");
         }
     }
 
@@ -111,35 +107,45 @@ public class GameSceneController : MonoBehaviour
 
     private IEnumerator ShipDestroyedCoroutine()
     {
-        _lives--;
+        GlobalControl.Instance.lives--;
         yield return new WaitForSeconds(2.0f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (GlobalControl.Instance.lives > 0)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+        else
+        {
+            SceneManager.LoadScene("LoseScreen");
+        }
     }
 
+    /*
+     *    Coroutine for spawning new asteroids
+     */
     IEnumerator SpawnNewAsteroid()
     {
         for(; ; )
         {
-            GameObject asteroid = Asteroids[Random.Range(0, Asteroids.Length - 1)];
+            GameObject asteroid = asteroids[Random.Range(0, asteroids.Length)];
             Vector3 pos;
-            Camera cam = Camera.main;
+            
             bool[] values = new bool[] { true, false };
             if (values[Random.Range(0, values.Length)])
             {
-                float x = Random.Range(-rightBound, rightBound);
-                float[] Y = new float[] {upperBound - asteroid.GetComponent<Asteroid>().SpriteHeight*2, -upperBound + asteroid.GetComponent<Asteroid>().SpriteHeight*2 };
+                float x = Random.Range(GlobalControl.Instance.leftBound, GlobalControl.Instance.rightBound);
+                float[] Y = new float[] {GlobalControl.Instance.lowerBound, GlobalControl.Instance.upperBound};
                 float y = Y[Random.Range(0, Y.Length)];
                 pos = new Vector3(x, y, 1.0f);
             }
             else
             {
-                float y = Random.Range(-upperBound, upperBound);
-                float[] X = new float[] {rightBound - asteroid.GetComponent<Asteroid>().SpriteWidth*2, -rightBound + asteroid.GetComponent<Asteroid>().SpriteWidth*2 };
+                float y = Random.Range(GlobalControl.Instance.lowerBound, GlobalControl.Instance.upperBound);
+                float[] X = new float[] {GlobalControl.Instance.leftBound, GlobalControl.Instance.rightBound};
                 float x = X[Random.Range(0, X.Length)];
                 pos = new Vector3(x, y, 1.0f);
             }
+
             Instantiate(asteroid, pos, new Quaternion());
-            Debug.Log("New asteroid spawned");
             yield return new WaitForSeconds(5.0f);
         }
         

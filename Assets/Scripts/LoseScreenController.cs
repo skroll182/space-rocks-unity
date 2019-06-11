@@ -1,16 +1,21 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.TextCore.LowLevel;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
-public class MainMenuSceneController : MonoBehaviour
+public class LoseScreenController : MonoBehaviour
 {
-    [SerializeField] private GameObject[] asteroids = new GameObject[3];
-    
     // Start is called before the first frame update
+    [SerializeField] private GameObject[] asteroids = new GameObject[3];
     void Start()
     {
+        
+
+
         for (int i = 0; i < 25; i++)
         {
             
@@ -26,17 +31,19 @@ public class MainMenuSceneController : MonoBehaviour
     }
     
 
-    public void GoToGameScene()
+    private void OnGUI()
     {
-        GlobalControl.Instance.score = 980;
-        GlobalControl.Instance.lives = 1;
-        SceneManager.LoadScene("GameScene");
-        
+        GameObject.Find("Score Text").GetComponent<Text>().text =
+            "YOUR SCORE: " + GlobalControl.Instance.score + " POINTS";
+    }
+
+    public void ToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void Exit()
     {
         Application.Quit();
-        
     }
 }

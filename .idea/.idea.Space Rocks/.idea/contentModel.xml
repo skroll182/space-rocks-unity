@@ -11,9 +11,11 @@
           <e p="Bullet.cs" t="Include" />
           <e p="Debris.cs" t="Include" />
           <e p="GameSceneController.cs" t="Include" />
+          <e p="GlobalControl.cs" t="Include" />
+          <e p="LoseScreenController.cs" t="Include" />
           <e p="MainMenuSceneController.cs" t="Include" />
           <e p="Ship.cs" t="Include" />
-          <e p="Utilities.cs" t="Include" />
+          <e p="WinScreenController.cs" t="Include" />
         </e>
       </e>
       <e p="obj" t="ExcludeRecursive" />
